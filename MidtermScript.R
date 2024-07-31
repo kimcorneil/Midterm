@@ -8,4 +8,4 @@ trip <- read.csv("trip.csv")
 station <- read.csv("station.csv")
 weather <- read.csv("weather.csv")
 
-
+####### Determining Outliers #######
