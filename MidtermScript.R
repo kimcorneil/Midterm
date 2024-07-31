@@ -66,7 +66,7 @@ trip3$duration[trip3$duration >= quantile(trip3$duration, .99)]<- NA
 ## remove NAs
 trip3 <- trip3 %>% drop_na(duration)
 ## new historgam
-hist(trip3)
+hist(log10(trip3$duration)) ##FIX KIM
 
 ####### Determining Outliers - Station #######
 summary(station)
