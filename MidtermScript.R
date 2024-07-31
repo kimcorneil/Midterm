@@ -25,6 +25,12 @@ trip2 <- trip2 %>% mutate(duration =
                                       .default = duration)) # if condition is not met the default is to maintain the value in duration
 ## move all the rows that have NAs in duration to a separate data frame (cancelled_trips) before removing them 
 cancelled_trips <- trip2 %>% filter(is.na(duration))
+## get the number of suspected cancelled trips
+nrow(cancelled_trips)
+## just save IDs
+cancelled_IDs <- data.frame(cancelled_trips$id)
+## save cancelled_trips IDs as a file
+write_csv(cancelled_IDs, "cancelled_trips.csv")
 ## remove any rows in trip2 that have NAs in duration
 trip2 <- trip2 %>% drop_na(duration)
 ## summarize trip2 to see changes
