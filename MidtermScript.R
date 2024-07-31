@@ -61,7 +61,12 @@ Trips_outlier_IDs <- data.frame(Trips_outliers$id)
 write_csv(Trips_outlier_IDs, "trips_outliers.csv")
 
 # remove top 1% of trip durations
-trip3$duration <- trip3$duration <= quantile(trip3$duration, .99) 
+## set them to NA
+trip3$duration[trip3$duration >= quantile(trip3$duration, .99)]<- NA 
+## remove NAs
+trip3 <- trip3 %>% drop_na(duration)
+## new historgam
+hist(trip3)
 
 ####### Determining Outliers - Station #######
 summary(station)
