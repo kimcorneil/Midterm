@@ -42,6 +42,11 @@ plot_num(trip)
 plot_num(station)
 plot_num(weather)
 
+# ensure the columns were named appropriately
+names(trip)
+names(station)
+names(weather)
+
 # some stuff I would like to clean: 
 #' trip: ID, start and end station ID, and bike ID should not be numeric
 #' station: ID should not be numeric (unsure lat and long and dock_count, depends on later analysis)
