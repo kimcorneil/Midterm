@@ -17,3 +17,33 @@ install.packages("Hmisc")
 library(funModeling)
 library(Hmisc)
 
+# summarize the data
+summary(trip)
+summary(station)
+summary(weather)
+
+# View the data
+View(trip)
+View(station)
+View(weather)
+
+# use status() to view types of data, zeros, NAs, and infinite numbers
+status(trip)
+status(station)
+status(weather)
+
+# use freq to examine frequency and percents of all categorical and factors
+freq(trip)
+freq(station)
+freq(weather)
+
+# use plot_num to visually analyze numerical variables
+plot_num(trip)
+plot_num(station)
+plot_num(weather)
+
+# some stuff I would like to clean: 
+#' trip: ID, start and end station ID, and bike ID should not be numeric
+#' station: ID should not be numeric (unsure lat and long and dock_count, depends on later analysis)
+#' weather: precipitation_inches should be numeric and zip_code should not be
+
