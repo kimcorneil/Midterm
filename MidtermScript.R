@@ -8,11 +8,15 @@ trip <- read.csv("trip.csv")
 station <- read.csv("station.csv")
 weather <- read.csv("weather.csv")
 
-####### Cleaning the data #######
+####### Removing Cancelled Trips #######
+# create trip2 so the original data set 'trip' remains unaltered
+trip2 <- trip
+
+# clean the data a bit by making the numerical variables ID and bike_ID into character
+trip2$id <- as.character(trip2$id)
+trip2$bike_id <- as.character(trip2$bike_id)
 
 # Remove any trip starting and ending at the same station with a duration of less than 3 minutes from 'trip'
-## create trip2 so the original data set 'trip' remains unaltered
-trip2 <- trip
 ## convert start_station_id and end_station_id to character
 trip2$start_station_id <- as.character(trip2$start_station_id)
 trip2$end_station_id <- as.character(trip2$end_station_id)
