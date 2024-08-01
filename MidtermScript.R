@@ -48,17 +48,17 @@ trip_weekdays$start_time_half <- format(trip_weekdays$start_time_half, "%H:%M")
 # Make a historgram
 ## Install ggplot2
 library(ggplot2)
-#######
-# Create a histogram
+## use ggplot to make the histogram
 ggplot(trip_weekdays, aes(x = start_time_half)) +
-  geom_histogram(stat = "count") +
+  geom_histogram(stat = "count", binwidth = 1) +
   labs(title = "Bike Rental Start Time Frequencies",
        x = "Start Time",
        y = "Frequency") + 
-  theme(axis.test.x = element_text(angle = 90)) ## tilt titles so that they can be seen
+  theme(axis.text.x = element_text(angle = 90, hjust=1)) ## tilt titles so that they can be seen
 
-#########
-hjust = 1))
+## Define a rush hour as any frequency 
+
+
 
 
 
