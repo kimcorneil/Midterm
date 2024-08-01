@@ -56,15 +56,85 @@ ggplot(trip_weekdays, aes(x = start_time_half)) +
        y = "Frequency") + 
   theme(axis.text.x = element_text(angle = 90, hjust=1)) ## tilt titles so that they can be seen
 
-## Define a rush hour as any frequency 
+# Define a rush hour as any frequency as anything with a frequency over 20000
+## Given that, the rush hours are: 7:30-9:30 and 16:00-18:30
 
+####### Determine 10 most frequent starting and ending stations during weekday rush hours #######
 
+# Make a new data frame including only data from the rush hour times 
+rush_weekdays <- trip_weekdays %>% 
+  filter(start_time_half == c("7:30", "8:00", "8:30", "9:00", "9:30", "16:00", "16:30", "17:00", "17:30", "18:00", "18:30"))
 
+# starting stations
+## make starting stations id into a factor
+rush_weekdays$start_station_id <- factor(rush_weekdays$start_station_id)
+## make a table of the factor
+rush_table <- table(rush_weekdays$start_station_id)
+# sort the table by decreasing, subset 1:10 to get top 10
+sort(rush_table, decreasing = T)[1:10]
+# see that most frequent starting stations have the ID: 65  70  61  77  64  60  55  74  69  51 
+## in report link these to their names of the stations
 
+# ending stations
+## make starting stations id into a factor
+rush_weekdays$end_station_id <- factor(rush_weekdays$end_station_id)
+## make a table of the factor
+rush_table2 <- table(rush_weekdays$end_station_id)
+# sort the table by decreasing, subset 1:10 to get top 10
+sort(rush_table2, decreasing = T)[1:10]
+# see that most frequent ending stations have the ID: 70   69   50   55   74   77   61   39   60   72 
+## in report link these to their names of the stations
 
+####### Determine 10 most frequent starting and ending stations during weekend rush hours #######
+# create a new data frame called trip_weekends
+trip_weekends <- trip4 %>% filter(weekdays(start_date) %in% c("Sunday", "Saturday"))
 
+## DO THE SAME THING AS WITH WEEKDAYS TO GET THE HISTOGRAM TO DETERMINE RUSH HOURS
+# convert start_time to a time
+## as.POSIXct converts to a calendar date and time but adds the current date
+trip_weekends$start_time <- as.POSIXct(trip_weekends$start_time, format = "%H:%M")
+## use cut to divide times into 30 minute intervals to analyze rush hour by the half hour
+trip_weekends$start_time_half <- cut(trip_weekends$start_time, breaks = "30 min")
+## as.POSIXct converts to a calendar date and time but adds the current date
+trip_weekends$start_time_half <- as.POSIXct(trip_weekends$start_time_half, format = "%Y-%m-%d %H:%M:%S")
+## remove the added date
+trip_weekends$start_time_half <- format(trip_weekends$start_time_half, "%H:%M")
 
+# Make a historgram
+## Install ggplot2
+library(ggplot2)
+## use ggplot to make the histogram
+ggplot(trip_weekends, aes(x = start_time_half)) +
+  geom_histogram(stat = "count", binwidth = 1) +
+  labs(title = "Bike Rental Start Time Frequencies",
+       x = "Start Time",
+       y = "Frequency") + 
+  theme(axis.text.x = element_text(angle = 90, hjust=1)) ## tilt titles so that they can be seen
 
+# Define a rush hour as any frequency as anything with a frequency over 3400 ## FUN FACT they both have 11 times
+### DIFFERENT THAN WEEKDAY AS DEALING WITH DIFFERENT FREQUENCIES 
+## Given that, the rush hours are: 11:30 - 16:30
 
+# Make a new data frame including only data from the rush hour times 
+rush_weekends <- trip_weekends %>% 
+  filter(start_time_half == c("11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30"))
 
+# starting stations
+## make starting stations id into a factor
+rush_weekends$start_station_id <- factor(rush_weekends$start_station_id)
+## make a table of the factor
+rush_table3 <- table(rush_weekends$start_station_id)
+# sort the table by decreasing, subset 1:10 to get top 10
+sort(rush_table3, decreasing = T)[1:10]
+# see that most frequent starting stations have the ID: 50  60  61  76  54  73  74  39  48  70 
+## in report link these to their names of the stations
 
+# ending stations
+## make starting stations id into a factor
+rush_weekends$end_station_id <- factor(rush_weekends$end_station_id)
+## make a table of the factor
+rush_table4 <- table(rush_weekends$end_station_id)
+# sort the table by decreasing, subset 1:10 to get top 10
+sort(rush_table4, decreasing = T)[1:10]
+# see that most frequent ending stations have the ID: 60  50  76  61  39  48  70  74  54  73 
+## in report link these to their names of the stations
