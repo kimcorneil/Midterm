@@ -35,16 +35,31 @@ trip4$end_date <- dmy(trip4$end_date)
 ## use weekdays to give the day of the week of start_date and filter based on if the day of the week is one Monday-Friday
 trip_weekdays <- trip4 %>% filter(weekdays(start_date) %in% c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"))
 
-# convert start_time to a time (if that is even a thing)
-trip_weekdays$start_time <- strftime(trip_weekdays$start_time, "%H:%M")
-hist(trip_weekdays$start_time)
-#### THIS DOES NOT WORK FIX IT AND FIGURE IT OUT 
+# convert start_time to a time
+## as.POSIXct converts to a calendar date and time but adds the current date
+trip_weekdays$start_time <- as.POSIXct(trip_weekdays$start_time, format = "%H:%M")
+## use cut to divide times into 30 minute intervals to analyze rush hour by the half hour
+trip_weekdays$start_time_half <- cut(trip_weekdays$start_time, breaks = "30 min")
+## as.POSIXct converts to a calendar date and time but adds the current date
+trip_weekdays$start_time_half <- as.POSIXct(trip_weekdays$start_time_half, format = "%Y-%m-%d %H:%M:%S")
+## remove the added date
+trip_weekdays$start_time_half <- format(trip_weekdays$start_time_half, "%H:%M")
 
-# Plan
-## first create 2 new columns for start times and end times and separate them from dates
-## then create a new dataframe with just the weekdays in it
-## then convert times to 24 hour clock ## OR DONT and do histogram by the hour ya i like that or like the 30 min or whatever
-## then make them numeric (or something im a bit confused but make it like lowkey a histogram type shit i think)
+# Make a historgram
+## Install ggplot2
+library(ggplot2)
+#######
+# Create a histogram
+ggplot(trip_weekdays, aes(x = start_time_half)) +
+  geom_histogram(stat = "count") +
+  labs(title = "Bike Rental Start Time Frequencies",
+       x = "Start Time",
+       y = "Frequency") + 
+  theme(axis.test.x = element_text(angle = 90)) ## tilt titles so that they can be seen
+
+#########
+hjust = 1))
+
 
 
 
