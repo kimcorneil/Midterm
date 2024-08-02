@@ -56,7 +56,7 @@ ggplot(trip_weekdays, aes(x = start_time_half)) +
        y = "Frequency") + 
   theme(axis.text.x = element_text(angle = 90, hjust=1)) ## tilt titles so that they can be seen
 
-# Define a rush hour as any frequency as anything with a frequency over 20000
+# Define a rush hour as any frequency as anything with a frequency over 10000
 ## Given that, the rush hours are: 7:30-9:30 and 16:00-18:30
 
 ####### Determine 10 most frequent starting and ending stations during weekday rush hours #######
@@ -72,7 +72,7 @@ rush_weekdays$start_station_id <- factor(rush_weekdays$start_station_id)
 rush_table <- table(rush_weekdays$start_station_id)
 # sort the table by decreasing, subset 1:10 to get top 10
 sort(rush_table, decreasing = T)[1:10]
-# see that most frequent starting stations have the ID: 65  70  61  77  64  60  55  74  69  51 
+# see that most frequent starting stations have the ID: 70  65  77  61  64  60  69  51  67  74  
 ## in report link these to their names of the stations
 
 # ending stations
@@ -82,7 +82,7 @@ rush_weekdays$end_station_id <- factor(rush_weekdays$end_station_id)
 rush_table2 <- table(rush_weekdays$end_station_id)
 # sort the table by decreasing, subset 1:10 to get top 10
 sort(rush_table2, decreasing = T)[1:10]
-# see that most frequent ending stations have the ID: 70   69   50   55   74   77   61   39   60   72 
+# see that most frequent ending stations have the ID: 70   69   50   74   55   77   39   61   72   60 
 ## in report link these to their names of the stations
 
 ####### Determine 10 most frequent starting and ending stations during weekend rush hours #######
@@ -109,7 +109,7 @@ ggplot(trip_weekends, aes(x = start_time_half)) +
        y = "Frequency") + 
   theme(axis.text.x = element_text(angle = 90, hjust=1)) ## tilt titles so that they can be seen
 
-# Define a rush hour as any frequency as anything with a frequency over 3400 ## FUN FACT they both have 11 times
+# Define a rush hour as any frequency as anything with a frequency over 1700 ## FUN FACT they both have 11 times
 ### DIFFERENT THAN WEEKDAY AS DEALING WITH DIFFERENT FREQUENCIES 
 ## Given that, the rush hours are: 11:30 - 16:30
 
@@ -124,7 +124,7 @@ rush_weekends$start_station_id <- factor(rush_weekends$start_station_id)
 rush_table3 <- table(rush_weekends$start_station_id)
 # sort the table by decreasing, subset 1:10 to get top 10
 sort(rush_table3, decreasing = T)[1:10]
-# see that most frequent starting stations have the ID: 50  60  61  76  54  73  74  39  48  70 
+# see that most frequent starting stations have the ID: 50  60  54  61  76  39  70  72  65  64 
 ## in report link these to their names of the stations
 
 # ending stations
@@ -134,5 +134,5 @@ rush_weekends$end_station_id <- factor(rush_weekends$end_station_id)
 rush_table4 <- table(rush_weekends$end_station_id)
 # sort the table by decreasing, subset 1:10 to get top 10
 sort(rush_table4, decreasing = T)[1:10]
-# see that most frequent ending stations have the ID: 60  50  76  61  39  48  70  74  54  73 
+# see that most frequent ending stations have the ID: 50  60  61  70  39  54  76  74  65  48 
 ## in report link these to their names of the stations
