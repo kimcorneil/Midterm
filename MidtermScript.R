@@ -40,7 +40,7 @@ freq(weather)
 # use plot_num to visually analyze numerical variables
 plot_num(trip)
 plot_num(station)
-plot_num(weather)
+plot_num(weather) ## try to do it by city
 
 # ensure the columns were named appropriately
 names(trip)
