@@ -22,14 +22,17 @@ trip5$month <- factor(trip5$month, levels = c("January", "February", "March", "A
 # add a column for the number of seconds in a month 
 trip5 <- trip5 %>% mutate(trip5, seconds_in_month = (days_in_month(trip5$start_date)*24*60*60))
 
-# get only the unique values for month and seconds in a month into a new data frame
-months_with_seconds <- data.frame(unique(trip5$month, trip5$seconds_in_month))
+summary(trip5)
+
+# get table of total seconds per month ## CAN DELETE THIS I THINK 
+smt <- trip5 %>% 
+  group_by(month) %>%
+  summarize(mean(seconds_in_month))
 
 # calculate total duration per month
 mytable <- trip5 %>% 
   group_by(month) %>%
-  summarize(sum(duration)) 
-
+  summarize(sum(duration)/mean(seconds_in_month)) 
 
 
 
