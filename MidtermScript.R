@@ -101,8 +101,6 @@ trip_weekends$start_time_half <- as.POSIXct(trip_weekends$start_time_half, forma
 trip_weekends$start_time_half <- format(trip_weekends$start_time_half, "%H:%M")
 
 # Make a historgram
-## Install ggplot2
-library(ggplot2)
 ## use ggplot to make the histogram
 ggplot(trip_weekends, aes(x = start_time_half)) +
   geom_histogram(stat = "count", binwidth = 1) +
