@@ -41,17 +41,27 @@ levels(station2$city)
 # make cities in station a character
 station2$id <- as.character(station2$id)
 
-
-table(station2$city, sum(station2$id))
-## create a table with all the stations in the cities
-station_table <- station2 %>%
-  select(city, id) %>% # use only cities and ids
-  arrange(city, id) # sorts a table 
+# rename id in trip6 so it doesnt get confusing 
+names(trip6)[names(trip6) == "id"] <- "trip_id"
 
 # Add a new column for start city and end city into trip6
-trip6 <- trip6 %>% left_join(trip6, by = c(station2$ID))
+trip6 <- trip6 %>% left_join(station2, by = c("start_station_id" = "id"))
 
+# remove columns added that were not needed
+trip6 = trip6[,!(names(trip6) %in% c("installation_date","dock_count", "lat", "long", "name"))]
 
+# rename city to start_city
+names(trip6)[names(trip6) == "city"] <- "start_city"
 
+# repeat for end city
+trip6 <- trip6 %>% left_join(station2, by = c("end_station_id" = "id"))
+trip6 = trip6[,!(names(trip6) %in% c("installation_date","dock_count", "lat", "long", "name"))]
+names(trip6)[names(trip6) == "city"] <- "end_city"
 
+# make the start and end cities factors
+trip6$start_city <- factor(trip6$start_city)
+trip6$end_city <- factor(trip6$end_city)
 
+# check how many times a city appears in start and end city
+table(trip6$start_city)
+table(trip6$end_city) ## notice they are not the same meaning some trips start in one city and end in another
