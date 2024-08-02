@@ -42,23 +42,23 @@ hist(log10(trip3$duration)) ### KIMBERLY MAKE THIS NICE IF YOU WANT TO INCLUDE I
 boxplot(log10(trip3$duration)) ## WHAT THE ACTUAL FRIG
 
 # analyze data outside of middle 95% with qunatile
-quantile(trip3$duration, 0.025) #170
-quantile(trip3$duration, 0.975) #5109
+quantile(trip3$duration, 0.025) #171
+quantile(trip3$duration, 0.975) #5209
 # with this method all values below 165 and above 5085 are considered outliers
 5085/60 # an 84.75 minute bike ride is not unreasonable, so 95% may be too high
 # once again not removing bottom because we already dealt with cancelled trip and a 1-2 minute bike ride is not unreasonable between stations - ie simple google maps for ID 4299 shows they are a 1 min bike ride apart
 # view top 2%
-quantile(trip3$duration, 0.98) #6726 is still reasonable
-quantile(trip3$duration, 0.99) #12990 is about 3.6 hours which is verging on excessive, so try it as 99%
+quantile(trip3$duration, 0.98) #6973 is still reasonable
+quantile(trip3$duration, 0.99) #13351 is about 3.7 hours which is verging on excessive, so try it as 99%
 
 # move all the rows from the top 1%
-Trips_outliers <- trip3 %>% filter(trip3$duration >= quantile(trip3$duration, 0.99))
+Trips_outliers2 <- trip3 %>% filter(trip3$duration >= quantile(trip3$duration, 0.99))
 # get the number of outliers to be removed
-nrow(Trips_outliers)
+nrow(Trips_outliers2)
 # just save IDs
-Trips_outlier_IDs <- data.frame(Trips_outliers$id)
+Trips_outlier_IDs2 <- data.frame(Trips_outliers2$id)
 # save outliers IDs as a file
-write_csv(Trips_outlier_IDs, "trips_outliers.csv")
+write_csv(Trips_outlier_IDs2, "trips_outliers2.csv")
 
 # remove top 1% of trip durations
 ## set them to NA
