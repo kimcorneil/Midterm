@@ -65,3 +65,14 @@ trip6$end_city <- factor(trip6$end_city)
 # check how many times a city appears in start and end city
 table(trip6$start_city)
 table(trip6$end_city) ## notice they are not the same meaning some trips start in one city and end in another
+
+# To deal with cities starting and ending in different places I will do weather correlation analysis for both
+start_city_weather <- trip6 %>% left_join(weather2, by = c("start_city" = "city"))
+
+# cor plot time
+# install corrplot
+install.packages("corrplot")
+# add it to library
+library(corrplot)
+
+
