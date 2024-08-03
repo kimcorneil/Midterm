@@ -51,8 +51,7 @@ quantile(trip3$duration, 0.975) #5209
 quantile(trip3$duration, 0.98) #6973 is still reasonable
 quantile(trip3$duration, 0.99) #13351 is about 3.7 hours which is verging on excessive, so try it as 99%
 
-### 13 HOUR OUTLIER DEFINITION
-60*60*13 #46800 seconds is 13 hours
+### 7 HOUR OUTLIER DEFINITION
 60*60*7 # 21600 is 7 hours
 
 # create trip_outliers3 containing all the trips of 7 hours or longer
