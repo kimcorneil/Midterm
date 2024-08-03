@@ -12,8 +12,6 @@ weather <- read.csv("weather.csv")
 # Follow the blog post outlined in the assignment description
 # Install the required packages and add them to library
 library(tidyverse)
-install.packages("funModeling")
-install.packages("Hmisc")
 library(funModeling)
 library(Hmisc)
 
@@ -21,6 +19,11 @@ library(Hmisc)
 summary(trip)
 summary(station)
 summary(weather)
+
+# get the dimensions the data
+dim(trip)
+dim(station)
+dim(weather)
 
 # View the data
 View(trip)
@@ -40,15 +43,24 @@ freq(weather)
 # use plot_num to visually analyze numerical variables
 plot_num(trip)
 plot_num(station)
-plot_num(weather) ## try to do it by city
+plot_num(weather) 
+
+## analyze numeric distributors of weather by city by using filter from dypler to separate by city name
+MV <- weather %>% filter(city == "Mountain View") 
+PA <- weather %>% filter(city == "Palo Alto")
+RC <- weather %>% filter(city == "Redwood City")
+SF <- weather %>% filter(city == "San Francisco")
+SJ <- weather %>% filter(city == "San Jose")
+
+plot_num(MV)
+plot_num(PA)
+plot_num(RC)
+plot_num(SF)
+plot_num(SJ)
 
 # ensure the columns were named appropriately
 names(trip)
 names(station)
 names(weather)
 
-# some stuff I would like to clean: 
-#' trip: ID, start and end station ID, and bike ID should not be numeric
-#' station: ID should not be numeric (unsure lat and long and dock_count, depends on later analysis)
-#' weather: precipitation_inches should be numeric and zip_code should not be
 
