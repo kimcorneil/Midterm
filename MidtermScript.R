@@ -37,10 +37,10 @@ sort(trip3$duration,decreasing = F)[1:10]
 ### notice they are 60 or 61 and there are multiple of the same number
 
 ## View the historgram on a logarithmic scale to see proper distribution
-hist(log10(trip3$duration)) ### KIMBERLY MAKE THIS NICE IF YOU WANT TO INCLUDE IT IN REPORT
+hist(log10(trip3$duration), main = "Historgam of Bike Ride Duration", xlab = "Log10 Duration (Seconds)")
 ## notice very small bins on left, right skewed (RIGHT) ## LOWKEY AND ONE ON THE RIGHT SO MAYBE CHANGE THE ABOVE
-boxplot(log10(trip3$duration)) ## WHAT THE ACTUAL FRIG
 
+## DELETE THIS IF YOU GO FOR THE 13 HOUR THING 
 # analyze data outside of middle 95% with qunatile
 quantile(trip3$duration, 0.025) #171
 quantile(trip3$duration, 0.975) #5209
@@ -51,22 +51,25 @@ quantile(trip3$duration, 0.975) #5209
 quantile(trip3$duration, 0.98) #6973 is still reasonable
 quantile(trip3$duration, 0.99) #13351 is about 3.7 hours which is verging on excessive, so try it as 99%
 
-# move all the rows from the top 1%
-Trips_outliers2 <- trip3 %>% filter(trip3$duration >= quantile(trip3$duration, 0.99))
-# get the number of outliers to be removed
-nrow(Trips_outliers2)
-# just save IDs
-Trips_outlier_IDs2 <- data.frame(Trips_outliers2$id)
-# save outliers IDs as a file
-write_csv(Trips_outlier_IDs2, "trips_outliers2.csv")
+### 13 HOUR OUTLIER DEFINITION
+60*60*13 #46800 seconds is 13 hours
+60*60*7 # 21600 is 7 hours
 
-# remove top 1% of trip durations
-## set them to NA
-trip3$duration[trip3$duration >= quantile(trip3$duration, .99)]<- NA 
-## remove NAs
-trip3 <- trip3 %>% drop_na(duration)
-## new historgam
-hist(log10(trip3$duration)) ##FIX KIM
+# create trip_outliers3 containing all the trips of 7 hours or longer
+Trips_outliers3 <- trip3 %>% filter(trip3$duration >= 21600)
+# get the number of outliers to be removed
+nrow(Trips_outliers3)
+# just save IDs
+Trips_outlier_IDs3 <- data.frame(Trips_outliers3$id)
+# save outliers IDs as a file
+write_csv(Trips_outlier_IDs3, "trips_outliers3.csv")
+
+# remove trips over 7 hours from trip3
+trip3 <- trip3 %>% filter(trip3$duration < 21600)
+
+# Create new histograms after cleaning duration
+hist(trip3$duration, main = "Historgam of Bike Ride Duration", xlab = "Duration (Seconds)")
+hist(log10(trip3$duration),  main = "Historgam of Bike Ride Duration", xlab = "Log 10 Duration (Seconds)") 
 
 ####### Determining Outliers - Station #######
 summary(station)
