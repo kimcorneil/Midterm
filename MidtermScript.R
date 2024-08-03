@@ -66,8 +66,34 @@ trip6$end_city <- factor(trip6$end_city)
 table(trip6$start_city)
 table(trip6$end_city) ## notice they are not the same meaning some trips start in one city and end in another
 
-# To deal with cities starting and ending in different places I will do weather correlation analysis for both
-start_city_weather <- trip6 %>% left_join(weather2, by = c("start_city" = "city"))
+# I have a thought and I do not know if it is a good thought but alas it is a though
+##' so basically my thought is that trip is way to large to join with weather as is cause my laptop is WEAK
+##' and i need to see the correlation between weather and duration biked per day
+##' so my plan is that i will sum the total duration of biking per day
+##' but then the issue of course is cities
+##' so I would like to get the total duration per day per city
+##' and then I will compare two correlations: start_city and end_city weather shit
+##' either that or just start city cause assuming it is influencing the decision to take a bike 
+##' and if the weather is shit they are already locked in yk? 
+##' Okay so how to get total duration bike per day per city is the question
+
+# create a new data frame summarizing the total duration biked per day per city
+summary_start <- trip6 %>% 
+  group_by(start_date, start_city) %>% # group by start_date and start_city
+  dplyr::summarize(total_duration = sum(duration)) %>% #create total duration which is a summary of duration #specify dplyr here as code doesnt run if summarize() from plyr is used
+  ungroup()
+
+# group weather and start_summary by date and city
+start_weather <- weather2 %>% left_join(summary_start, by = c("date" = "start_date", "city" = "start_city"))
+
+# clean start_weather so it is ready to go for correlation analysis
+summary(start_weather)
+## lots of issues with precipitation_inches 
+## set T to 0.001, this comes WITH MANY ERRORS I WILL TALK ABOUT IN MY REPORT
+
+
+
+start_weather$precipitation_inches <- as.numeric(start_weather$precipitation_inches)
 
 # cor plot time
 # install corrplot
