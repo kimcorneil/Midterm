@@ -104,8 +104,8 @@ start_weather$precipitation_inches <- replace(start_weather$precipitation_inches
 start_weather$precipitation_inches <- as.numeric(start_weather$precipitation_inches)
 
 # remove events for correlation
-# remove columns added that were not needed
-start_weather2 <- start_weather[,!(names(start_weather) %in% c("events"))]
+# remove columns added that were not needed (events and zip codes)
+start_weather2 <- start_weather[,!(names(start_weather) %in% c("events", "zip_code"))]
 
 # make city a factor
 start_weather2$city <- factor(start_weather2$city)
@@ -128,4 +128,27 @@ install.packages("corrplot")
 # add it to library
 library(corrplot)
 
+# set correlation matrix with cor
+corMV <- cor(Mountain_view, use = "complete.obs")
+corPA <- cor(Palo_alto, use = "complete.obs")
+corRC <- cor(Redwood_city, use = "complete.obs")
+corSF <- cor(San_fran, use = "complete.obs")
+corSJ <- cor(San_jose, use = "complete.obs")
 
+# Warning message from corMV, corRC, and corSJ: stdev is zero
+## check which column
+apply(Mountain_view, 2, sd, na.rm = TRUE) # max_visibility_miles
+apply(Redwood_city, 2, sd, na.rm = TRUE) # CANNOT FIND IT but see in cor plot its also
+apply(San_jose, 2, sd, na.rm = TRUE) #max_visibility_miles
+## remove the affected column
+Mountain_view2 <- Mountain_view[,!(names(Mountain_view) %in% c("max_visibility_miles"))]
+San_jose2 <- San_jose[,!(names(San_jose) %in% c("max_visibility_miles"))]
+corMV2 <- cor(Mountain_view2, use = "complete.obs")
+corSJ2 <- cor(San_jose2, use = "complete.obs")
+
+# plot with corrplot
+corrplot(corMV2, method = 'color')
+corrplot(corPA, method = 'color')
+corrplot(corRC, method = 'color')
+corrplot(corSF, method = 'color')
+corrplot(corSJ2, method = 'color')
