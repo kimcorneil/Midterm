@@ -76,8 +76,12 @@ summary(station)
 
 ####### Determining Outliers - Weather #######
 summary(weather)
-# maybe in wind degrees or events but otherwise seems pretty reasonable to me
-## MAYBE NOT THOUGH; run tests and shit
 
-
- 
+# Replace any wind speeds above 75 mph in max_wind and max_gust speed with NA
+## Duplicate weather so the original data set remains unaffected
+clean_weather <- weather
+ufos7$country[ufos7$country == ""] <- NA
+clean_weather$max_wind_Speed_mph[clean_weather$max_wind_Speed_mph > 75] <- NA
+clean_weather$max_gust_speed_mph[clean_weather$max_gust_speed_mph > 75] <- NA
+hist(clean_weather$max_wind_Speed_mph, main = "Histogram of Maximum Wind Speeds", xlab = "Maximum Wind Speed (mph)")
+hist(clean_weather$max_gust_speed_mph, main = "Histogram of Maximum Gust Speeds", xlab = "Maximum Gust Speed (mph)")
