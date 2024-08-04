@@ -44,6 +44,8 @@ trip_weekdays$start_time_half <- cut(trip_weekdays$start_time, breaks = "30 min"
 trip_weekdays$start_time_half <- as.POSIXct(trip_weekdays$start_time_half, format = "%Y-%m-%d %H:%M:%S")
 ## remove the added date
 trip_weekdays$start_time_half <- format(trip_weekdays$start_time_half, "%H:%M")
+## replace NA with 0 in trip_weekdays$start_time_half, as midnight became NA 
+trip_weekdays$start_time_half[is.na(trip_weekdays$start_time_half)] <- 0
 
 # Make a historgram
 ## Install ggplot2
@@ -72,7 +74,7 @@ rush_weekdays$start_station_id <- factor(rush_weekdays$start_station_id)
 rush_table <- table(rush_weekdays$start_station_id)
 # sort the table by decreasing, subset 1:10 to get top 10
 sort(rush_table, decreasing = T)[1:10]
-# see that most frequent starting stations have the ID: 70  65  77  61  64  60  69  51  67  74  
+# see that most frequent starting stations have the ID: 70  65  61  77  64  60  55  51  69  67 
 ## in report link these to their names of the stations
 
 # ending stations
@@ -82,7 +84,7 @@ rush_weekdays$end_station_id <- factor(rush_weekdays$end_station_id)
 rush_table2 <- table(rush_weekdays$end_station_id)
 # sort the table by decreasing, subset 1:10 to get top 10
 sort(rush_table2, decreasing = T)[1:10]
-# see that most frequent ending stations have the ID: 70   69   50   74   55   77   39   61   72   60 
+# see that most frequent ending stations have the ID:  70   69   50   74   55   77   39   61   60   65 
 ## in report link these to their names of the stations
 
 ####### Determine 10 most frequent starting and ending stations during weekend rush hours #######
@@ -99,6 +101,9 @@ trip_weekends$start_time_half <- cut(trip_weekends$start_time, breaks = "30 min"
 trip_weekends$start_time_half <- as.POSIXct(trip_weekends$start_time_half, format = "%Y-%m-%d %H:%M:%S")
 ## remove the added date
 trip_weekends$start_time_half <- format(trip_weekends$start_time_half, "%H:%M")
+## make NAs equal to zero
+trip_weekends$start_time_half[is.na(trip_weekends$start_time_half)] <- 0
+
 
 # Make a historgram
 ## use ggplot to make the histogram
@@ -124,7 +129,7 @@ rush_weekends$start_station_id <- factor(rush_weekends$start_station_id)
 rush_table3 <- table(rush_weekends$start_station_id)
 # sort the table by decreasing, subset 1:10 to get top 10
 sort(rush_table3, decreasing = T)[1:10]
-# see that most frequent starting stations have the ID: 50  60  54  61  76  39  70  72  65  64 
+# see that most frequent starting stations have the ID: 60  50  61  76  39  54  70  73  67  48 
 ## in report link these to their names of the stations
 
 # ending stations
@@ -134,5 +139,5 @@ rush_weekends$end_station_id <- factor(rush_weekends$end_station_id)
 rush_table4 <- table(rush_weekends$end_station_id)
 # sort the table by decreasing, subset 1:10 to get top 10
 sort(rush_table4, decreasing = T)[1:10]
-# see that most frequent ending stations have the ID: 50  60  61  70  39  54  76  74  65  48 
+# see that most frequent ending stations have the ID: 60  50  39  76  61  48  65  70  74  54 
 ## in report link these to their names of the stations
