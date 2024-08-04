@@ -10,7 +10,7 @@ weather <- read.csv("weather.csv")
 
 ####### Weather and bike rental correlation #######
 # duplicate weather and call it weather2 so the original data set remains unaffected
-weather2 <- weather
+weather2 <- clean_weather
 
 # make date into a date (same format as trip4)
 weather2 <- weather2 %>% mutate(date = mdy(date)) %>% # convert to mdy format as that is what it is given in
@@ -19,11 +19,12 @@ weather2 <- weather2 %>% mutate(date = mdy(date)) %>% # convert to mdy format as
 ## see that weather2 and trip4 have the same ranges for dates 
 range(weather2$date)
 range(trip4$start_date)
-##### CRYING SCREAMING THROWING UP BECAUSE IS IT SUPPOSED TO BE JUST 2014 DATA CAUSE IF IT IS I HAVE TO RESTART
+# They do you can realx
 
 # convert zip code to numeric in trip5 OR 4 so they are the same for comparison
 View(trip5)
 View(weather2)
+#### DELETE THIS??
 
 ## plan: add start city and end city to trip based on station info
 ## create new data set with weather and station info; unless cor() works on diff df's
@@ -145,6 +146,8 @@ Mountain_view2 <- Mountain_view[,!(names(Mountain_view) %in% c("max_visibility_m
 San_jose2 <- San_jose[,!(names(San_jose) %in% c("max_visibility_miles"))]
 corMV2 <- cor(Mountain_view2, use = "complete.obs")
 corSJ2 <- cor(San_jose2, use = "complete.obs")
+
+### REDWOOD TECHNICALLY IS FINE BUT EMOTIONALLY IS NOT WILL NEED TO DEAL WITH THAT
 
 # plot with corrplot
 corrplot(corMV2, method = 'color')
