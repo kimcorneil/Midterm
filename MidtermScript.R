@@ -19,24 +19,22 @@ trip5 <- trip5 %>% mutate(trip5, month = months(start_date))
 # make month a factor
 trip5$month <- factor(trip5$month, levels = c("January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"))
 
-# add a column for the number of seconds in a month 
-trip5 <- trip5 %>% mutate(trip5, seconds_in_month = (days_in_month(trip5$start_date)*24*60*60))
 
-summary(trip5)
-
-# get table of total seconds per month ## CAN DELETE THIS I THINK 
-smt <- trip5 %>% 
+# calculate total duration of bikes used per day per month
+hours_day <- trip5 %>% 
   group_by(month) %>%
-  summarize(mean(seconds_in_month))
+  dplyr::summarize(hours_per_day = sum(duration / 3600)/mean(day_in_month)) 
 
-# calculate total duration per month
-mytable <- trip5 %>% 
+# calculate the total hours bikes were used per month
+total_hours <- trip5 %>%
   group_by(month) %>%
-  summarize(sum(duration)/mean(seconds_in_month)) 
+  dplyr::summarize(total_duration_hours = sum(duration / 3600))
 
-
-
-
-
+# make a bar plot of the Hours of Average Daily Bike Usage Per Month
+ggplot(hours_day, aes(x = month, y=hours_per_day)) +
+  geom_bar(stat = "identity") +
+  labs(title = "Hours of Average Daily Bike Usage Per Month") +
+  xlab("Month") +
+  ylab("Average Hours per Day")
 
 
