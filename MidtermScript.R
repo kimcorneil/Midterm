@@ -28,16 +28,16 @@ trip2$end_station_id <- as.character(trip2$end_station_id)
 trip2$duration <- as.numeric(trip2$duration)
 ## since duration has a minimum of 60 and the units were not reported, I am making the assumption it was reported in seconds
 ## replace any trips starting and ending at the same station with a duration less than 3 minutes (180 seconds) with NA
-trip2 <- trip2 %>% mutate(duration = 
+trip2 <- trip2 %>% mutate(duration = # use mutate to change the data
                             case_when(duration < 180 & end_station_id == start_station_id ~ NA, # replace any conditions in duration as specified with NA
                                       .default = duration)) # if condition is not met the default is to maintain the value in duration
 ## move all the rows that have NAs in duration to a separate data frame (cancelled_trips) before removing them 
-cancelled_trips2 <- trip2 %>% filter(is.na(duration))
-## get the number of suspected cancelled trips
+cancelled_trips2 <- trip2 %>% filter(is.na(duration)) ## filter by NAs in duration
+## get the number of suspected cancelled trips by getting the number of rows in the new data frame
 nrow(cancelled_trips2)
-## just save IDs
+## just save IDs to a new data frame
 cancelled_IDs2 <- data.frame(cancelled_trips2$id)
-## save cancelled_trips IDs as a file
+## save cancelled_trips IDs as a .csv file
 write_csv(cancelled_IDs2, "cancelled_trips2.csv")
 ## remove any rows in trip2 that have NAs in duration
 trip2 <- trip2 %>% drop_na(duration)
