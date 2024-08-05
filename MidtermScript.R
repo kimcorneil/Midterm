@@ -17,7 +17,7 @@ summary(trip4)
 ## add lubridate to the library (previously installed)
 library(lubridate)
 
-## separate start_date and start_time (same with end_date and end_time)
+## separate start_date and start_time (same with end_date and end_time) into two columns
 trip4 <- separate(trip4, start_date, into = c("start_date", "start_time"), sep = " ")
 trip4 <- separate(trip4, end_date, into = c("end_date", "end_time"), sep = " ")
 
@@ -52,8 +52,8 @@ trip_weekdays$start_time_half[is.na(trip_weekdays$start_time_half)] <- 0
 library(ggplot2)
 ## use ggplot to make the histogram
 ggplot(trip_weekdays, aes(x = start_time_half)) +
-  geom_histogram(stat = "count", binwidth = 1) +
-  labs(title = "Bike Rental Start Time Frequencies",
+  geom_histogram(stat = "count", binwidth = 1) + ## create a historgam
+  labs(title = "Bike Rental Start Time Frequencies", ## add labels
        x = "Start Time",
        y = "Frequency") + 
   theme(axis.text.x = element_text(angle = 90, hjust=1)) ## tilt titles so that they can be seen
@@ -114,8 +114,7 @@ ggplot(trip_weekends, aes(x = start_time_half)) +
        y = "Frequency") + 
   theme(axis.text.x = element_text(angle = 90, hjust=1)) ## tilt titles so that they can be seen
 
-# Define a rush hour as any frequency as anything with a frequency over 1700 ## FUN FACT they both have 11 times
-### DIFFERENT THAN WEEKDAY AS DEALING WITH DIFFERENT FREQUENCIES 
+# Define a rush hour as any frequency as anything with a frequency over 1700 
 ## Given that, the rush hours are: 11:30 - 16:30
 
 # Make a new data frame including only data from the rush hour times 
