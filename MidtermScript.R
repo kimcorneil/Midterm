@@ -40,12 +40,24 @@ freq(trip)
 freq(station)
 freq(weather)
 
+## determine which stations were installed in 2014
+late_start <- station[grep("2014", station$installation_date), ]
+print(late_start)
+
 # use plot_num to visually analyze numerical variables
 plot_num(trip)
 plot_num(station)
 plot_num(weather) 
 
-## analyze numeric distributors of weather by city by using filter from dypler to separate by city name
+## Check that every ID value in trip is unique
+unique_ID <- unique(trip$id)
+length(unique_ID) # length is 326339 which is the same number of observations in trip
+
+## Check that every ID value in station is unique
+unique_ID2 <- unique(station$id)
+length(unique_ID2) # length is 70 which is the same number of observations 
+
+## analyze numeric distributors of weather by city by using filter from dyplr to separate by city name
 MV <- weather %>% filter(city == "Mountain View") 
 PA <- weather %>% filter(city == "Palo Alto")
 RC <- weather %>% filter(city == "Redwood City")
