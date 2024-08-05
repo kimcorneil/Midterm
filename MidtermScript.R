@@ -16,6 +16,10 @@ trip2 <- trip
 trip2$id <- as.character(trip2$id)
 trip2$bike_id <- as.character(trip2$bike_id)
 
+# convert zip code to a factor to view the levels
+trip2$zip_code <- factor(trip2$zip_code)
+table(trip2$zip_code) #1480 missing entries 
+
 # Remove any trip starting and ending at the same station with a duration of less than 3 minutes from 'trip'
 ## convert start_station_id and end_station_id to character
 trip2$start_station_id <- as.character(trip2$start_station_id)
