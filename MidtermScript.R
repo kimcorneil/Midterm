@@ -3,6 +3,10 @@
 # BTC1855H
 # Kimberly Corneil 
 
+# SK (Points taken) When you use a project/repo, your environment is re-defined as your project folder. 
+# To ensure reproducibility make sure that the data is included in the folder (I added them), and
+# to ensure code portability, make sure that you define file paths within the environment. 
+
 # Load the data
 trip <- read.csv("trip.csv")
 station <- read.csv("station.csv")
@@ -178,6 +182,7 @@ summary(weather)
 # Replace any wind speeds above 75 mph in max_wind and max_gust speed with NA
 ## Duplicate weather so the original data set remains unaffected
 clean_weather <- weather
+# SK Irrelevant line of code
 ufos7$country[ufos7$country == ""] <- NA
 clean_weather$max_wind_Speed_mph[clean_weather$max_wind_Speed_mph > 75] <- NA
 clean_weather$max_gust_speed_mph[clean_weather$max_gust_speed_mph > 75] <- NA
@@ -329,6 +334,7 @@ trip5$month <- factor(trip5$month, levels = c("January", "February", "March", "A
 
 
 # calculate total duration of bikes used per day per month
+# SK (Points taken) day_in_month is an undefined variable
 hours_day <- trip5 %>% 
   group_by(month) %>%
   dplyr::summarize(hours_per_day = sum(duration / 3600)/mean(day_in_month)) 
@@ -417,6 +423,8 @@ table(start_weather$events)
 
 ## lots of issues with precipitation_inches 
 ## set T to 0.011, this comes with potential errors (see report)
+# SK T actually stands for Trace Amounts, and is expected to be less than the min amount.
+
 # Replace T with 0.011
 ## first find where T is
 TT <- which(start_weather$precipitation_inches == "T")
@@ -425,6 +433,8 @@ start_weather$precipitation_inches <- replace(start_weather$precipitation_inches
 start_weather$precipitation_inches <- as.numeric(start_weather$precipitation_inches)
 
 # remove events for correlation
+# SK Instead of removing the events from the correlation, you could have re-coded the empty
+# values and then changed the event column to factor.
 # remove columns added that were not needed (events and zip codes)
 start_weather2 <- start_weather[,!(names(start_weather) %in% c("events", "zip_code"))]
 
@@ -450,7 +460,11 @@ San_jose <- start_weather2 %>% filter(city == "San Jose") %>%
 
 ####### Run correlation analysis #######
 # install corrplot
-install.packages("corrplot")
+# SK  It may at times be okay to include the code installing packages but no okay to enforce 
+# re-installing packages every time a code is sourced. Best practice is to include these 
+# lines and comment them. Then ask the user to un-comment when necessary.
+#install.packages("corrplot")
+
 # add it to library
 library(corrplot)
 
